@@ -96,7 +96,8 @@ function show(id) {
   document.querySelectorAll(".tab").forEach((b) => b.classList.toggle("on", b.dataset.id === id));
   $("#view").innerHTML = id === "menu" ? renderMenu() : id === "b264" ? renderBoard("b264") : renderBoard("b301");
   const td = document.querySelector(".card.today");
-  if (td) td.scrollIntoView({ block: "start" }); // 오늘 식단으로 바로 이동
+  if (td) td.scrollIntoView({ block: "start" }); // 식단 탭: 오늘 식단으로 바로 이동
+  else window.scrollTo(0, 0);                    // 공지 탭: 맨 위부터 보이게
 }
 
 (async () => {
