@@ -8,51 +8,78 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ── A안 바다 블루 ── */
+  /* ── 시안 3 · 노을 수채 ── */
   :root {
-    --sea:#2F6C9F;     /* 바다: 헤더 배경, 아이콘, 링크 */
-    --wave:#BFDDF0;    /* 파도: 테두리, 물결 장식, 구분선 */
-    --foam:#EEF6FB;    /* 거품: 버튼과 카드 바탕 */
-    --buoy:#C8442F;    /* 부표 코랄: 메인 공지 카드 뱃지에만 사용 */
+    --sea:#2F6C9F;     /* 아이콘, 링크 */
+    --wave:#BFDDF0;    /* 테두리, 구분선 */
+    --foam:#EEF6FB;    /* 버튼과 카드 바탕 */
+    --buoy:#C8442F;    /* 메인 공지 카드 뱃지에만 사용 */
     --ink:#1E3448;     /* 본문, 제목 글씨 */
     --ink-sub:#4F647A; /* 보조 글씨 */
-    --bg:#FFFFFF;      /* 페이지 바탕 */
+    --sky:#BCD8EE;     /* 그림 패널 배경(이미지 로딩 전·실패 시) */
+    --bg:#FFFFFF;
   }
   * { box-sizing: border-box; }
-  /* 화면이 내용보다 길어도(컴퓨터 등) 맨 아래 물결이 화면 바닥에 붙도록 세로 flex */
-  body { margin:0; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column;
-         background:var(--bg); color:var(--ink); font:400 16px/1.6 "Noto Sans KR", -apple-system, sans-serif;
+  body { margin:0; background:var(--bg); color:var(--ink); font:400 16px/1.6 "Noto Sans KR", -apple-system, sans-serif;
          word-break:keep-all; overflow-wrap:anywhere; }  /* 한글을 단어 단위로 줄바꿈 */
   button { font-family:inherit; }
-  .wrap { width:100%; max-width:480px; margin:0 auto; padding:0 16px; }
   [hidden] { display:none !important; }
   .ic { fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
 
-  /* ── 메인화면: 헤더 ── */
-  .hero { position:relative; min-height:236px; background:var(--sea); color:#fff; text-align:center; padding:34px 16px 52px; }
-  .hero .ic { width:40px; height:40px; color:#fff; }
-  .logo { font-weight:800; font-size:36px; letter-spacing:3px; line-height:1.2; margin:6px 0 4px; color:#fff; }
-  .tagline { font-size:14px; margin:0; color:#fff; }
-  .hero-waves { position:absolute; left:0; bottom:-1px; display:block; width:100%; height:46px; }
-  .w-back { fill:var(--wave); }
-  .w-front { fill:var(--bg); }
+  /* ── 전체 틀: 좁은 화면은 세로(그림 띠 → 내용), 넓은 화면(900px 이상)은 좌우 분할 ── */
+  .layout { display:flex; flex-direction:column; min-height:100vh; min-height:100dvh; }
+  .art { position:relative; flex-shrink:0; height:260px; background:var(--sky); overflow:hidden; }
+  .art-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:40% 60%; display:block; }
+  .art-title { position:absolute; left:0; right:0; top:34px; text-align:center; color:var(--ink); }
+  .art-title .ic { width:40px; height:40px; color:var(--ink); }
+  .logo { font-weight:800; font-size:36px; letter-spacing:4px; line-height:1.2; margin:4px 0 2px; color:var(--ink); }
+  .tagline { font-size:14px; font-weight:500; margin:0; color:var(--ink); }
+  .art-wave { position:absolute; left:0; bottom:-1px; display:block; width:100%; height:40px; }
+  .art-wave path { fill:var(--bg); }
+  /* 좁은 화면에선 그림 띠를 메인에서만 보여줌(정보·공지 화면은 바로 내용부터) */
+  .layout:has(#page:not([hidden])) .art { display:none; }
+
+  .main { flex:1; display:flex; flex-direction:column; min-width:0; padding:8px 24px 24px; }
+  .inner { width:560px; max-width:100%; margin:0 auto; }  /* 좁은 화면: 그림 띠 바로 아래부터 */
+  #home { display:flex; flex-direction:column; gap:14px; }
 
   /* ── 메인화면: 버튼과 카드 ── */
-  .wide { display:flex; align-items:center; justify-content:center; gap:10px; height:60px; margin-top:10px; border-radius:999px;
-          background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none; font-weight:800; font-size:18px; }
-  .wide .ic { width:22px; height:22px; color:var(--sea); }
-  .home-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0 18px; }
-  .tile { position:relative; height:176px; border-radius:24px; background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none;
+  .wide { display:flex; align-items:center; justify-content:center; gap:10px; height:60px; border-radius:999px;
+          background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none; font-weight:800; font-size:19px; }
+  .wide .ic { width:24px; height:24px; color:var(--sea); }
+  .home-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .tile { position:relative; height:176px; border-radius:28px; background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none;
           display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
-  .tile-icon { display:grid; place-items:center; width:52px; height:52px; margin-bottom:6px; border-radius:50%; background:#fff; border:1.5px solid var(--wave); }
-  .tile-icon .ic { width:26px; height:26px; color:var(--sea); }
-  .tile-title { font-weight:800; font-size:22px; line-height:1.3; }
+  .tile-icon { display:grid; place-items:center; width:56px; height:56px; margin-bottom:6px; border-radius:50%; background:#fff; border:1.5px solid var(--wave); }
+  .tile-icon .ic { width:28px; height:28px; color:var(--sea); }
+  .tile-title { font-weight:800; font-size:24px; line-height:1.3; }
   .tile-desc { font-size:13px; color:var(--ink-sub); }
-  .tile .cnt { position:absolute; top:12px; right:12px; margin:0; min-width:24px; height:24px; line-height:24px; padding:0 7px;
+  .tile .cnt { position:absolute; top:16px; right:16px; margin:0; min-width:26px; height:26px; line-height:26px; padding:0 8px;
                border-radius:999px; background:var(--buoy); color:#fff; font-size:13px; font-weight:700; }
   .tile, .wide { transition:transform .15s; }
   .tile:active, .wide:active { transform:scale(.97); }
-  #updated { font-size:13px; color:var(--ink-sub); text-align:center; margin:0 0 8px; }
+  #updated { font-size:13px; color:var(--ink-sub); text-align:center; margin:0; }
+
+  /* ── 넓은 화면: 왼쪽 그림 패널(스크롤해도 고정) + 오른쪽 내용 ── */
+  @media (min-width:900px) {
+    .layout { flex-direction:row; }
+    .art { position:sticky; top:0; height:100vh; height:100dvh; flex:0 0 40%; min-width:420px; max-width:640px; }
+    .layout:has(#page:not([hidden])) .art { display:block; }
+    .art-img { object-position:40% 50%; }
+    .art-title { left:56px; right:auto; top:80px; text-align:left; }
+    .art-title .ic { width:48px; height:48px; }
+    .logo { font-size:48px; }
+    .tagline { font-size:16px; }
+    .art-wave { display:none; }
+    .main { padding:40px 48px; }
+    .inner { margin:auto; }  /* 넓은 화면: 짧으면 세로·가로 가운데, 길면 위부터 */
+    #home { gap:18px; }
+    .wide { height:68px; }
+    .home-grid { gap:18px; }
+    .tile { height:230px; }
+    .tile-icon { width:64px; height:64px; }
+    .tile-icon .ic { width:30px; height:30px; }
+  }
 
   /* ── 정보·공지 화면: 상단바와 탭이 함께 위에 고정 ── */
   #page { padding-top:12px; }
@@ -123,13 +150,9 @@
   .cnt { display:inline-block; min-width:20px; margin-left:6px; padding:0 6px; font-size:12px; font-weight:700; line-height:20px; text-align:center; border-radius:999px; background:var(--wave); color:var(--ink); }
   .tip { background:var(--foam); border:1.5px solid var(--wave); border-radius:14px; padding:12px 14px; }
 
-  /* ── 푸터와 맨 아래 물결 ── */
-  footer { margin-top:24px; border-top:1.5px solid var(--wave); padding-top:10px; font-size:13px; line-height:1.6; color:var(--ink-sub); }
+  /* ── 푸터 ── */
+  footer { margin-top:18px; border-top:1.5px solid var(--wave); padding-top:10px; font-size:13px; line-height:1.6; color:var(--ink-sub); }
   footer a { display:inline-block; padding:10px 2px; color:var(--sea); }  /* 터치 영역 확보 */
-  .foot-waves { display:block; flex-shrink:0; width:100%; height:56px; margin-top:auto; }
-  footer { margin-bottom:16px; }  /* 내용이 길 때 물결과의 간격 */
-  .fw-back { fill:var(--foam); }
-  .fw-front { fill:var(--wave); }
 
   /* 움직임 줄이기 설정이면 애니메이션 끄기 */
   @media (prefers-reduced-motion: reduce) {
@@ -139,18 +162,23 @@
 </style>
 </head>
 <body>
-<!-- 메인화면 -->
-<section id="home">
-  <header class="hero">
-    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21M8 11h8M4.5 13.5c.6 4 3.8 7.5 7.5 7.5s6.9-3.5 7.5-7.5"/></svg>
-    <h1 class="logo">MMU INFO</h1>
-    <p class="tagline">목포해양대학교 정보 앱</p>
-    <svg class="hero-waves" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-      <path class="w-back" d="M0,38 C240,88 480,0 720,38 C960,78 1200,8 1440,44 L1440,100 L0,100 Z"/>
-      <path class="w-front" d="M0,66 C200,30 440,96 720,62 C1000,30 1240,92 1440,60 L1440,100 L0,100 Z"/>
+<div class="layout">
+  <!-- 그림 패널: 넓은 화면은 왼쪽 고정, 좁은 화면은 위쪽 띠 -->
+  <header class="art">
+    <img class="art-img" src="assets/sea.webp" alt="" width="632" height="972">
+    <div class="art-title">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21M8 11h8M4.5 13.5c.6 4 3.8 7.5 7.5 7.5s6.9-3.5 7.5-7.5"/></svg>
+      <h1 class="logo">MMU INFO</h1>
+      <p class="tagline">목포해양대학교 정보 앱</p>
+    </div>
+    <svg class="art-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,52 C200,18 440,90 720,54 C1000,18 1240,86 1440,50 L1440,100 L0,100 Z"/>
     </svg>
   </header>
-  <div class="wrap">
+
+  <main class="main"><div class="inner">
+  <!-- 메인화면 -->
+  <section id="home">
     <a class="wide" href="https://www.mmu.ac.kr/main" target="_blank" rel="noopener">
       <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>홈페이지 바로가기</a>
     <div class="home-grid">
@@ -162,10 +190,8 @@
         <span class="tile-title">공지</span><span class="tile-desc">해성공지 · 승선사관부</span><span id="noticeCnt"></span></a>
     </div>
     <div id="updated">불러오는 중…</div>
-  </div>
-</section>
+  </section>
 
-<div class="wrap">
   <!-- 정보·공지 화면 -->
   <section id="page" hidden>
     <div class="head">
@@ -183,11 +209,8 @@
     <a href="https://www.mmu.ac.kr/main/board/264" target="_blank" rel="noopener">승선사관부 공지</a> ·
     <a href="https://www.mmu.ac.kr/main/board/301" target="_blank" rel="noopener">해성공지</a>
   </footer>
+  </div></main>
 </div>
-<svg class="foot-waves" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-  <path class="fw-back" d="M0,30 C240,70 480,0 720,32 C960,64 1200,6 1440,36 L1440,100 L0,100 Z"/>
-  <path class="fw-front" d="M0,62 C220,34 460,92 720,64 C980,36 1220,90 1440,62 L1440,100 L0,100 Z"/>
-</svg>
 <script>
 // 화면 구성: 주소 뒤 #info/menu, #notice/b301 처럼 나타냄 → 폰의 뒤로가기로 홈에 돌아올 수 있음
 // 정보에 새 항목을 넣을 땐 info.tabs 에 추가하고 RENDER 에 그리는 함수를 연결하면 돼
