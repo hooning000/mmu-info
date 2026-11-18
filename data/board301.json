@@ -1,17 +1,10 @@
 {
-  "updatedAt": "2026-11-18T11:24:52.750Z",
+  "updatedAt": "2026-11-18T20:17:05.173Z",
   "items": [
     {
       "title": "[앵커사업] 창업 IP 창출 특허캠프 참여학생 모집",
       "date": "2026-11-17",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90231",
-      "pinned": true,
-      "hasFile": false
-    },
-    {
-      "title": "2027학년도 1학기 해사대학 승선실습 대상자 추가복학기간 지정 알림",
-      "date": "2026-11-16",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90213",
       "pinned": true,
       "hasFile": false
     },
@@ -65,16 +58,16 @@
       "hasFile": true
     },
     {
-      "title": "[인권센터]2026학년도 학생인권교육 및 참여형 토론 프로그램 신청자 모집",
-      "date": "2026-10-15",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89852",
-      "pinned": true,
-      "hasFile": false
-    },
-    {
       "title": "[해운항만물류인력양성사업단] H라인 2026학년도 동계인턴십 대상자 선정결과 알림",
       "date": "2026-11-18",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90246",
+      "pinned": false,
+      "hasFile": false
+    },
+    {
+      "title": "2027학년도 1학기 해사대학 승선실습 대상자 추가복학기간 지정 알림",
+      "date": "2026-11-16",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90213",
       "pinned": false,
       "hasFile": false
     },
@@ -413,13 +406,6 @@
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/89900",
       "pinned": false,
       "hasFile": true
-    },
-    {
-      "title": "초급기관사 실무용접 교육 실시",
-      "date": "2026-10-19",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89887",
-      "pinned": false,
-      "hasFile": false
     }
   ]
 }
