@@ -14,7 +14,9 @@
   .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 40px; }
   h1 { font-weight:800; font-size:25px; margin:0 0 4px; padding-bottom:8px; border-bottom:3px solid var(--main); }
   .sub { font-size:13px; margin:8px 0 16px; }
-  .tabs { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  /* 스크롤해도 탭이 화면 위에 붙어 있게 */
+  .tabs { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; position:sticky; top:0; z-index:5; background:#fff; padding:8px 0; border-bottom:1px solid var(--sub); }
+  .card { scroll-margin-top: 64px; }
   .tab { border:1px solid var(--sub); background:#fff; color:var(--ink); font:700 14px "Kakao Big Sans"; padding:8px 14px; border-radius:20px; cursor:pointer; }
   .tab.on { background:var(--sub); border-color:var(--main); }
   .card { border:1px solid var(--sub); border-left:5px solid var(--main); border-radius:10px; padding:12px 14px; margin-bottom:12px; }
