@@ -92,7 +92,8 @@
   .cal-head strong { font-size:18px; font-weight:800; }
   .cal-nav { width:44px; height:44px; border-radius:50%; border:1.5px solid var(--wave); background:var(--foam); color:var(--ink); font-size:20px; font-weight:700; cursor:pointer; }
   .cal-nav:disabled { opacity:.35; cursor:default; }
-  .cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:4px; }
+  /* 가로 간격 0: 여러 날 일정의 박스가 칸 사이에서 끊기지 않게 이어 그림 */
+  .cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); column-gap:0; row-gap:4px; }
   .cal-wd { text-align:center; font-size:12px; font-weight:700; color:var(--ink-sub); padding:2px 0; }
   .cal-day { min-height:48px; padding:4px 0; border:1.5px solid transparent; border-radius:12px; background:none; color:var(--ink); font-size:14px;
              display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; }
@@ -100,6 +101,10 @@
   .cal-day.hol { background:var(--foam); }
   .cal-day.today .num { background:var(--sea); color:#fff; }
   .cal-day.sel { border-color:var(--sea); }
+  /* 목록에서 고른 일정의 기간: 위아래 선은 계속 잇고, 시작·끝(또는 주의 첫날·끝날)에서 둥글게 닫음 */
+  .cal-day.rng { background:var(--foam); border-radius:0; border-color:var(--sea); border-left-width:0; border-right-width:0; }
+  .cal-day.rng.rs { border-left-width:1.5px; border-top-left-radius:12px; border-bottom-left-radius:12px; }
+  .cal-day.rng.re { border-right-width:1.5px; border-top-right-radius:12px; border-bottom-right-radius:12px; }
   .dots { display:flex; gap:3px; }
   .dots i { width:5px; height:5px; border-radius:50%; background:var(--sea); }
   .cal-legend { display:flex; gap:14px; justify-content:flex-end; margin-top:8px; font-size:12px; color:var(--ink-sub); }
@@ -107,7 +112,8 @@
   .lg-dot { width:6px; height:6px; border-radius:50%; background:var(--sea); }
   .lg-hol { width:12px; height:12px; border-radius:4px; background:var(--foam); border:1.5px solid var(--wave); }
   .sch-title { font-size:16px; font-weight:800; margin:18px 0 8px; }
-  .ev { padding:10px 14px; border:1.5px solid var(--wave); border-radius:14px; margin-bottom:8px; }
+  .ev { display:block; width:100%; text-align:left; font:inherit; color:var(--ink); background:var(--bg); cursor:pointer;
+        padding:10px 14px; border:1.5px solid var(--wave); border-radius:14px; margin-bottom:8px; }
   .ev.hit { background:var(--foam); border-color:var(--sea); }
   .ev-date { display:block; font-size:13px; font-weight:700; color:var(--ink-sub); }
   .ev-title { font-weight:500; }
@@ -259,6 +265,7 @@ const todayStr = () => { const n = new Date(); return ymd(n.getFullYear(), n.get
 const dayLabel = (s) => { const [y, m, d] = s.split("-").map(Number); return `${pad(m)}.${pad(d)}(${WD[new Date(y, m - 1, d).getDay()]})`; };
 let calMonth = null; // "YYYY-MM" 지금 보고 있는 달
 let calSel = null;   // "YYYY-MM-DD" 선택한 날
+let calHL = null;    // 목록에서 누른 일정(items 번호) → 달력에 기간 박스 표시
 
 function renderSchedule() {
   const d = data.schedule;
@@ -279,15 +286,22 @@ function renderSchedule() {
 
   let cells = WD.map((w) => `<div class="cal-wd">${w}</div>`).join("");
   cells += "<div></div>".repeat(firstDow);
+  const hl = calHL != null ? items[calHL] : null;
   for (let day = 1; day <= lastDay; day++) {
     const ds = ymd(Y, M, day), ev = on(ds);
-    const cls = ["cal-day", ds === today && "today", ds === calSel && "sel", ev.some((e) => e.holiday) && "hol"].filter(Boolean).join(" ");
+    const col = (firstDow + day - 1) % 7; // 0=일요일 … 6=토요일
+    const inR = hl && hl.start <= ds && ds <= hl.end;
+    const cls = ["cal-day", ds === today && "today", ds === calSel && "sel", ev.some((e) => e.holiday) && "hol",
+      inR && "rng",
+      inR && (ds === hl.start || col === 0 || day === 1) && "rs",       // 박스 왼쪽 닫기
+      inR && (ds === hl.end || col === 6 || day === lastDay) && "re",   // 박스 오른쪽 닫기
+    ].filter(Boolean).join(" ");
     cells += `<button class="${cls}" data-day="${ds}" aria-label="${M}월 ${day}일, 일정 ${ev.length}개">
       <span class="num">${day}</span>${ev.length ? `<span class="dots">${"<i></i>".repeat(Math.min(ev.length, 3))}</span>` : ""}</button>`;
   }
 
-  const evRow = (e, hit) => `<div class="ev ${hit ? "hit" : ""}"><span class="ev-date">${dayLabel(e.start)}${e.end !== e.start ? " – " + dayLabel(e.end) : ""}</span>
-    <span class="ev-title">${esc(e.title)}</span>${e.holiday ? '<span class="hol-chip">휴일</span>' : ""}</div>`;
+  const evRow = (e, hit) => `<button class="ev ${hit ? "hit" : ""}" data-i="${items.indexOf(e)}"><span class="ev-date">${dayLabel(e.start)}${e.end !== e.start ? " – " + dayLabel(e.end) : ""}</span>
+    <span class="ev-title">${esc(e.title)}</span>${e.holiday ? '<span class="hol-chip">휴일</span>' : ""}</button>`;
   let selBox = "";
   if (calSel) {
     const [, sm, sd] = calSel.split("-").map(Number);
@@ -308,7 +322,7 @@ function renderSchedule() {
     </div>
     ${selBox}
     <h3 class="sch-title">${M}월 전체 일정</h3>
-    ${monthList.length ? monthList.map((e) => evRow(e, calSel && e.start <= calSel && calSel <= e.end)).join("") : `<p class="empty">이 달은 등록된 일정이 없어.</p>`}`;
+    ${monthList.length ? monthList.map((e) => evRow(e, hl ? e === hl : calSel && e.start <= calSel && calSel <= e.end)).join("") : `<p class="empty">이 달은 등록된 일정이 없어.</p>`}`;
 }
 
 function renderTabs(sec, active) {
@@ -345,17 +359,24 @@ function route() {
   // 공지를 누르면 읽음 처리 → NEW 배지와 탭 개수 갱신 (원문은 새 창으로 열림)
   $("#view").addEventListener("click", (e) => {
     // 학사일정 달력: 이전/다음 달, 날짜 선택 (화면 위치는 그대로 유지)
-    const nav = e.target.closest(".cal-nav"), dayBtn = e.target.closest(".cal-day");
-    if (nav || dayBtn) {
+    const nav = e.target.closest(".cal-nav"), dayBtn = e.target.closest(".cal-day"), evBtn = e.target.closest(".ev");
+    if (nav || dayBtn || evBtn) {
       if (nav) {
         const [y, m] = calMonth.split("-").map(Number);
         const dt = new Date(y, m - 1 + Number(nav.dataset.dir), 1);
         calMonth = `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}`;
         calSel = todayStr().startsWith(calMonth) ? todayStr() : null;
-      } else {
+        calHL = null;
+      } else if (dayBtn) {
         calSel = dayBtn.dataset.day;
+        calHL = null;
+      } else {
+        // 일정을 누르면: 달력에 그 기간을 박스로 표시하고 맨 위(달력)로 올라감
+        calHL = Number(evBtn.dataset.i);
+        calSel = null;
       }
       $("#view").innerHTML = renderSchedule();
+      if (evBtn) window.scrollTo(0, 0); // 어느 기기에서든 확실하게 바로 맨 위로
       return;
     }
     const a = e.target.closest(".post");
