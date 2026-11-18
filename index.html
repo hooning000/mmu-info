@@ -26,59 +26,71 @@
   [hidden] { display:none !important; }
   .ic { fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
 
-  /* ── 전체 틀: 좁은 화면은 세로(그림 띠 → 내용), 넓은 화면(900px 이상)은 좌우 분할 ── */
+  /* ── 전체 틀 ──
+     · 폰·태블릿 세로 등 좁거나 세로로 긴 화면: 바다 블루(파란 헤더 + 물결)
+     · 폭 900px 이상이면서 가로로 긴 화면(노트북, 태블릿 가로): 노을 그림 좌우 분할 */
   .layout { display:flex; flex-direction:column; min-height:100vh; min-height:100dvh; }
-  .art { position:relative; flex-shrink:0; height:260px; background:var(--sky); overflow:hidden; }
-  .art-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:40% 60%; display:block; }
-  .art-title { position:absolute; left:0; right:0; top:34px; text-align:center; color:var(--ink); }
-  .art-title .ic { width:40px; height:40px; color:var(--ink); }
-  .logo { font-weight:800; font-size:36px; letter-spacing:4px; line-height:1.2; margin:4px 0 2px; color:var(--ink); }
-  .tagline { font-size:14px; font-weight:500; margin:0; color:var(--ink); }
-  .art-wave { position:absolute; left:0; bottom:-1px; display:block; width:100%; height:40px; }
-  .art-wave path { fill:var(--bg); }
-  /* 좁은 화면에선 그림 띠를 메인에서만 보여줌(정보·공지 화면은 바로 내용부터) */
+  .art { position:relative; flex-shrink:0; min-height:236px; padding:34px 16px 52px; background:var(--sea); text-align:center; }
+  .art-img { display:none; }
+  .art-title { color:#fff; }
+  .art-title .ic { width:40px; height:40px; color:#fff; }
+  .logo { font-weight:800; font-size:36px; letter-spacing:3px; line-height:1.2; margin:6px 0 4px; color:#fff; }
+  .tagline { font-size:14px; margin:0; color:#fff; }
+  .art-wave { position:absolute; left:0; bottom:-1px; display:block; width:100%; height:46px; }
+  .w-back { fill:var(--wave); }
+  .w-front { fill:var(--bg); }
+  /* 좁은 화면에선 헤더를 메인에서만 보여줌(정보·공지 화면은 바로 내용부터) */
   .layout:has(#page:not([hidden])) .art { display:none; }
 
-  .main { flex:1; display:flex; flex-direction:column; min-width:0; padding:8px 24px 24px; }
-  .inner { width:560px; max-width:100%; margin:0 auto; }  /* 좁은 화면: 그림 띠 바로 아래부터 */
+  .main { display:flex; flex-direction:column; min-width:0; padding:10px 16px 0; }
+  .inner { width:480px; max-width:100%; margin:0 auto; }
   #home { display:flex; flex-direction:column; gap:14px; }
+  footer { margin-bottom:16px; }
+  .foot-waves { display:block; flex-shrink:0; width:100%; height:56px; margin-top:auto; }  /* 화면 바닥에 붙음 */
+  .fw-back { fill:var(--foam); }
+  .fw-front { fill:var(--wave); }
 
   /* ── 메인화면: 버튼과 카드 ── */
   .wide { display:flex; align-items:center; justify-content:center; gap:10px; height:60px; border-radius:999px;
-          background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none; font-weight:800; font-size:19px; }
-  .wide .ic { width:24px; height:24px; color:var(--sea); }
+          background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none; font-weight:800; font-size:18px; }
+  .wide .ic { width:22px; height:22px; color:var(--sea); }
   .home-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .tile { position:relative; height:176px; border-radius:28px; background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none;
+  .tile { position:relative; height:176px; border-radius:24px; background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none;
           display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
-  .tile-icon { display:grid; place-items:center; width:56px; height:56px; margin-bottom:6px; border-radius:50%; background:#fff; border:1.5px solid var(--wave); }
-  .tile-icon .ic { width:28px; height:28px; color:var(--sea); }
-  .tile-title { font-weight:800; font-size:24px; line-height:1.3; }
+  .tile-icon { display:grid; place-items:center; width:52px; height:52px; margin-bottom:6px; border-radius:50%; background:#fff; border:1.5px solid var(--wave); }
+  .tile-icon .ic { width:26px; height:26px; color:var(--sea); }
+  .tile-title { font-weight:800; font-size:22px; line-height:1.3; }
   .tile-desc { font-size:13px; color:var(--ink-sub); }
-  .tile .cnt { position:absolute; top:16px; right:16px; margin:0; min-width:26px; height:26px; line-height:26px; padding:0 8px;
+  .tile .cnt { position:absolute; top:12px; right:12px; margin:0; min-width:24px; height:24px; line-height:24px; padding:0 7px;
                border-radius:999px; background:var(--buoy); color:#fff; font-size:13px; font-weight:700; }
   .tile, .wide { transition:transform .15s; }
   .tile:active, .wide:active { transform:scale(.97); }
   #updated { font-size:13px; color:var(--ink-sub); text-align:center; margin:0; }
 
-  /* ── 넓은 화면: 왼쪽 그림 패널(스크롤해도 고정) + 오른쪽 내용 ── */
-  @media (min-width:900px) {
+  /* ── 노을 수채: 왼쪽 그림 패널(스크롤해도 고정) + 오른쪽 내용 ── */
+  @media (min-width:900px) and (orientation:landscape) {
     .layout { flex-direction:row; }
-    .art { position:sticky; top:0; height:100vh; height:100dvh; flex:0 0 40%; min-width:420px; max-width:640px; }
+    .art { position:sticky; top:0; height:100vh; height:100dvh; min-height:0; padding:0; flex:0 0 40%; min-width:420px; max-width:640px;
+           background:var(--sky); text-align:left; overflow:hidden; }
     .layout:has(#page:not([hidden])) .art { display:block; }
-    .art-img { object-position:40% 50%; }
-    .art-title { left:56px; right:auto; top:80px; text-align:left; }
-    .art-title .ic { width:48px; height:48px; }
-    .logo { font-size:48px; }
-    .tagline { font-size:16px; }
-    .art-wave { display:none; }
-    .main { padding:40px 48px; }
-    .inner { margin:auto; }  /* 넓은 화면: 짧으면 세로·가로 가운데, 길면 위부터 */
+    .art-img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:40% 50%; }
+    .art-title { position:absolute; left:56px; top:80px; color:var(--ink); }
+    .art-title .ic { width:48px; height:48px; color:var(--ink); }
+    .logo { font-size:48px; letter-spacing:4px; margin:4px 0 2px; color:var(--ink); }
+    .tagline { font-size:16px; font-weight:500; color:var(--ink); }
+    .art-wave, .foot-waves { display:none; }
+    .main { flex:1; padding:40px 48px; }
+    .inner { width:560px; margin:auto; }  /* 짧으면 세로·가로 가운데, 길면 위부터 */
+    footer { margin-bottom:0; }
     #home { gap:18px; }
-    .wide { height:68px; }
+    .wide { height:68px; font-size:19px; }
+    .wide .ic { width:24px; height:24px; }
     .home-grid { gap:18px; }
-    .tile { height:230px; }
+    .tile { height:230px; border-radius:28px; }
     .tile-icon { width:64px; height:64px; }
     .tile-icon .ic { width:30px; height:30px; }
+    .tile-title { font-size:24px; }
+    .tile .cnt { top:16px; right:16px; min-width:26px; height:26px; line-height:26px; padding:0 8px; }
   }
 
   /* ── 정보·공지 화면: 상단바와 탭이 함께 위에 고정 ── */
@@ -172,7 +184,8 @@
       <p class="tagline">목포해양대학교 정보 앱</p>
     </div>
     <svg class="art-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,52 C200,18 440,90 720,54 C1000,18 1240,86 1440,50 L1440,100 L0,100 Z"/>
+      <path class="w-back" d="M0,38 C240,88 480,0 720,38 C960,78 1200,8 1440,44 L1440,100 L0,100 Z"/>
+      <path class="w-front" d="M0,66 C200,30 440,96 720,62 C1000,30 1240,92 1440,60 L1440,100 L0,100 Z"/>
     </svg>
   </header>
 
@@ -210,6 +223,11 @@
     <a href="https://www.mmu.ac.kr/main/board/301" target="_blank" rel="noopener">해성공지</a>
   </footer>
   </div></main>
+  <!-- 좁은 화면(바다 블루) 맨 아래 물결 -->
+  <svg class="foot-waves" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+    <path class="fw-back" d="M0,30 C240,70 480,0 720,32 C960,64 1200,6 1440,36 L1440,100 L0,100 Z"/>
+    <path class="fw-front" d="M0,62 C220,34 460,92 720,64 C980,36 1220,90 1440,62 L1440,100 L0,100 Z"/>
+  </svg>
 </div>
 <script>
 // 화면 구성: 주소 뒤 #info/menu, #notice/b301 처럼 나타냄 → 폰의 뒤로가기로 홈에 돌아올 수 있음

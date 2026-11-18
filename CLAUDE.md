@@ -6,5 +6,5 @@
 - 배포: GitHub `hooning000/mmu-info`(공개) → https://hooning000.github.io/mmu-info/ . `.github/workflows/update-and-deploy.yml`이 3시간마다 데이터 갱신·커밋 후 Pages 배포. 로컬 수정 전엔 항상 `git pull` (봇이 data 커밋을 계속 올림)
 - 커밋 이메일은 noreply(319899905+hooning000@users.noreply.github.com)만 사용
 - 실행: `npm run update` (데이터 갱신) → `npm start` → http://localhost:8000
-- 디자인(시안 3 · 노을 수채): 900px 이상은 왼쪽 그림 패널(assets/sea.webp, sticky 100vh)+오른쪽 내용 560px, 900px 미만은 위쪽 그림 띠 260px+흰 물결. 색 --sea #2F6C9F(아이콘·링크) --wave #BFDDF0 --foam #EEF6FB --buoy #C8442F(메인 공지 뱃지에만) --ink #1E3448 --ink-sub #4F647A --sky #BCD8EE, Noto Sans KR. 그림 위 그림자·그라데이션·반투명 막·이모지 금지
+- 디자인: 폭 900px 미만 또는 세로 화면(폰·태블릿 세로)은 바다 블루(파란 헤더+물결, 위엔 흰 글씨). 폭 900px 이상이면서 가로 화면(노트북·태블릿 가로)만 시안 3 · 노을 수채: 900px 이상은 왼쪽 그림 패널(assets/sea.webp, sticky 100vh)+오른쪽 내용 560px. 색 --sea #2F6C9F(아이콘·링크) --wave #BFDDF0 --foam #EEF6FB --buoy #C8442F(메인 공지 뱃지에만) --ink #1E3448 --ink-sub #4F647A --sky #BCD8EE, Noto Sans KR. 그림 위 그림자·그라데이션·반투명 막·이모지 금지
 - 원칙: 화면 하단에 "비공식 앱, 정확한 내용은 학교 홈페이지 확인" 문구와 원문 링크 유지. 학교 서버에 요청은 최소로(갱신 시 페이지당 1회)
