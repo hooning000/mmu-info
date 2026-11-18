@@ -18,10 +18,13 @@
   /* ── 메인화면 ── */
   #home { text-align:center; padding-top:8vh; }
   .logo { font-weight:800; font-size:40px; letter-spacing:3px; margin:0; display:inline-block; padding:0 6px 6px; border-bottom:3px solid var(--main); }
-  .home-grid { display:flex; justify-content:center; gap:20px; margin:40px 0 24px; flex-wrap:wrap; }
-  .tile { position:relative; width:min(40vw, 200px); aspect-ratio:1 / 1; border-radius:28px; background:var(--sub); border:1px solid var(--main);
-          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; text-decoration:none; color:var(--ink); transition:transform .1s; }
-  .tile:active { transform:scale(.97); }
+  .home-grid { display:flex; justify-content:center; gap:20px; margin:20px 0 24px; flex-wrap:wrap; }
+  .tile, .wide { border-radius:28px; background:var(--sub); border:1px solid var(--main); text-decoration:none; color:var(--ink); transition:transform .1s; }
+  .tile { position:relative; width:min(40vw, 200px); aspect-ratio:1 / 1;
+          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
+  /* 홈페이지 바로가기: 타일 두 개 + 사이 간격만큼 가로로 긴 버튼 */
+  .wide { display:flex; align-items:center; justify-content:center; width:calc(2 * min(40vw, 200px) + 20px); height:72px; margin:36px auto 0; font-weight:800; font-size:20px; }
+  .tile:active, .wide:active { transform:scale(.97); }
   .tile-title { font-weight:800; font-size:26px; }
   .tile-desc { font-size:13px; }
   .tile .cnt { position:absolute; top:12px; right:12px; }
@@ -63,6 +66,7 @@
   <!-- 메인화면 -->
   <section id="home">
     <h1 class="logo">MMU INFO</h1>
+    <a class="wide" href="https://www.mmu.ac.kr/main" target="_blank" rel="noopener">홈페이지 바로가기</a>
     <div class="home-grid">
       <a class="tile" href="#info"><span class="tile-title">정보</span><span class="tile-desc">학식</span></a>
       <a class="tile" href="#notice"><span class="tile-title">공지</span><span class="tile-desc">해성공지 · 승선사관부</span><span id="noticeCnt"></span></a>
