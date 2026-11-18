@@ -66,6 +66,31 @@ async function menu() {
   return days;
 }
 
+// 학사일정: 학교 사이트가 쓰는 JSON 주소(/main/scheduleList)에서 학년도별로 받음
+// 학년도는 3월~다음해 2월. 이번 학년도 + 다음 학년도(등록돼 있으면)를 합친다.
+async function schedule() {
+  const now = new Date();
+  const ay = now.getMonth() + 1 >= 3 ? now.getFullYear() : now.getFullYear() - 1;
+  const seen = new Set();
+  const items = [];
+  for (const year of [ay, ay + 1]) {
+    const qs = new URLSearchParams({ libType: "D", searchDt: "", hakgi: "0", recordCnt: "999", year: String(year) });
+    const json = JSON.parse(await getHtml(`${BASE}/main/scheduleList?${qs}`));
+    for (const x of json.list || []) {
+      const key = `${x.frdt}|${x.todt}|${x.title}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      items.push({
+        start: String(x.frdt).slice(0, 10),
+        end: String(x.todt || x.frdt).slice(0, 10),
+        title: clean(String(x.title)),
+        holiday: x.holidayyn === "Y" || x.scheduletype === "HOL", // 휴일·휴업일 표시용
+      });
+    }
+  }
+  return items.sort((a, b) => a.start.localeCompare(b.start));
+}
+
 async function main() {
   fs.mkdirSync(DATA, { recursive: true });
   const updatedAt = new Date().toISOString();
@@ -73,6 +98,7 @@ async function main() {
     "menu.json": menu,
     "board264.json": () => board(264),
     "board301.json": () => board(301),
+    "schedule.json": schedule,
   };
   for (const [file, fn] of Object.entries(jobs)) {
     try {

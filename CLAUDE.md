@@ -1,7 +1,7 @@
 # 목포해양대 정보 웹앱 (비공식)
 - 목적: 학교 홈페이지보다 쉽게 승선생활관 식단과 공지를 보는 나 혼자 쓰는 웹앱
 - 사용 기기: 아이패드, 폰 (모바일 우선)
-- 기능: ① 승선생활관 식단 ② 승선사관부 공지 ③ 해성공지(board/301, 61개)
+- 기능: 정보(① 승선생활관 식단 ② 학사일정 달력 — /main/scheduleList JSON, 학년도 3월~2월) · 공지(③ 해성공지 board/301 ④ 승선사관부 board/264)
 - 구조: 의존성 없는 정적 사이트. `scripts/update.js`가 학교 사이트를 읽어 `data/*.json`에 저장하고, `index.html`이 그 JSON을 보여줌. 화면: 메인(MMU INFO + 정보·공지 타일) → #info(학식) · #notice(해성공지·승선사관부)
 - 배포: GitHub `hooning000/mmu-info`(공개) → https://hooning000.github.io/mmu-info/ . `.github/workflows/update-and-deploy.yml`이 3시간마다 데이터 갱신·커밋 후 Pages 배포. 로컬 수정 전엔 항상 `git pull` (봇이 data 커밋을 계속 올림)
 - 커밋 이메일은 noreply(319899905+hooning000@users.noreply.github.com)만 사용

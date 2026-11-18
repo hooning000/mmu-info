@@ -21,7 +21,8 @@
   * { box-sizing: border-box; }
   /* 화면이 내용보다 길어도(컴퓨터 등) 맨 아래 물결이 화면 바닥에 붙도록 세로 flex */
   body { margin:0; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column;
-         background:var(--bg); color:var(--ink); font:400 16px/1.6 "Noto Sans KR", -apple-system, sans-serif; }
+         background:var(--bg); color:var(--ink); font:400 16px/1.6 "Noto Sans KR", -apple-system, sans-serif;
+         word-break:keep-all; overflow-wrap:anywhere; }  /* 한글을 단어 단위로 줄바꿈 */
   button { font-family:inherit; }
   .wrap { width:100%; max-width:480px; margin:0 auto; padding:0 16px; }
   [hidden] { display:none !important; }
@@ -78,8 +79,40 @@
   .post { display:block; text-decoration:none; color:var(--ink); border:1.5px solid var(--wave); border-radius:14px; padding:10px 14px; margin-bottom:8px; }
   .post:active { background:var(--foam); }
   .post b { font-weight:700; }
+  .clip { width:16px; height:16px; margin-left:4px; vertical-align:-2px; color:var(--ink-sub); }
   .meta { font-size:13px; color:var(--ink-sub); margin-top:2px; }
-  .pin { font-size:12px; font-weight:500; background:var(--foam); border:1.5px solid var(--wave); border-radius:999px; padding:0 7px; margin-right:6px; }
+  /* 상단 고정 공지: 박스를 거품색으로 채우고, '공지' 표시는 바다색 바탕에 흰 글씨로 진하게 */
+  .post.pinned { background:var(--foam); }
+  .post.pinned:active { background:var(--wave); }
+  .pin { font-size:12px; font-weight:700; background:var(--sea); color:#fff; border:1.5px solid var(--sea); border-radius:999px; padding:0 8px; margin-right:6px; }
+
+  /* ── 학사일정 달력 ── */
+  .cal { border:1.5px solid var(--wave); border-radius:20px; padding:12px; }
+  .cal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .cal-head strong { font-size:18px; font-weight:800; }
+  .cal-nav { width:44px; height:44px; border-radius:50%; border:1.5px solid var(--wave); background:var(--foam); color:var(--ink); font-size:20px; font-weight:700; cursor:pointer; }
+  .cal-nav:disabled { opacity:.35; cursor:default; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:4px; }
+  .cal-wd { text-align:center; font-size:12px; font-weight:700; color:var(--ink-sub); padding:2px 0; }
+  .cal-day { min-height:48px; padding:4px 0; border:1.5px solid transparent; border-radius:12px; background:none; color:var(--ink); font-size:14px;
+             display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; }
+  .cal-day .num { display:block; width:26px; height:26px; line-height:26px; border-radius:50%; font-weight:700; }
+  .cal-day.hol { background:var(--foam); }
+  .cal-day.today .num { background:var(--sea); color:#fff; }
+  .cal-day.sel { border-color:var(--sea); }
+  .dots { display:flex; gap:3px; }
+  .dots i { width:5px; height:5px; border-radius:50%; background:var(--sea); }
+  .cal-legend { display:flex; gap:14px; justify-content:flex-end; margin-top:8px; font-size:12px; color:var(--ink-sub); }
+  .cal-legend span { display:inline-flex; align-items:center; gap:5px; }
+  .lg-dot { width:6px; height:6px; border-radius:50%; background:var(--sea); }
+  .lg-hol { width:12px; height:12px; border-radius:4px; background:var(--foam); border:1.5px solid var(--wave); }
+  .sch-title { font-size:16px; font-weight:800; margin:18px 0 8px; }
+  .ev { padding:10px 14px; border:1.5px solid var(--wave); border-radius:14px; margin-bottom:8px; }
+  .ev.hit { background:var(--foam); border-color:var(--sea); }
+  .ev-date { display:block; font-size:13px; font-weight:700; color:var(--ink-sub); }
+  .ev-title { font-weight:500; }
+  .hol-chip { font-size:12px; font-weight:700; background:var(--bg); border:1.5px solid var(--wave); border-radius:999px; padding:0 7px; margin-left:6px; }
+  .empty { font-size:13px; color:var(--ink-sub); margin:0 0 8px; }
   .new { font-size:11px; font-weight:800; background:var(--bg); border:1.5px solid var(--sea); border-radius:999px; padding:0 7px; margin-right:6px; letter-spacing:.5px; }
   .cnt { display:inline-block; min-width:20px; margin-left:6px; padding:0 6px; font-size:12px; font-weight:700; line-height:20px; text-align:center; border-radius:999px; background:var(--wave); color:var(--ink); }
   .tip { background:var(--foam); border:1.5px solid var(--wave); border-radius:14px; padding:12px 14px; }
@@ -117,7 +150,7 @@
     <div class="home-grid">
       <a class="tile" href="#info">
         <span class="tile-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v8a3 3 0 0 0 6 0V3M8 3v18M17 3c-2 2-3 4.5-3 8h3v10"/></svg></span>
-        <span class="tile-title">정보</span><span class="tile-desc">학식</span></a>
+        <span class="tile-title">정보</span><span class="tile-desc">학식 · 학사일정</span></a>
       <a class="tile" href="#notice">
         <span class="tile-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4M6 5h12l-3 3.5L18 12H6"/></svg></span>
         <span class="tile-title">공지</span><span class="tile-desc">해성공지 · 승선사관부</span><span id="noticeCnt"></span></a>
@@ -137,9 +170,10 @@
   </section>
 
   <footer>
-    비공식 앱이야. 정확한 내용은 학교 홈페이지에서 꼭 확인해.<br>
+    비공식 앱입니다. 정확한 내용은 학교 홈페이지에서 꼭 확인해 주세요.<br>
     원문:
     <a href="https://www.mmu.ac.kr/main/contents/todayMenu2" target="_blank" rel="noopener">식단표</a> ·
+    <a href="https://www.mmu.ac.kr/main/acschedule" target="_blank" rel="noopener">학사일정</a> ·
     <a href="https://www.mmu.ac.kr/main/board/264" target="_blank" rel="noopener">승선사관부 공지</a> ·
     <a href="https://www.mmu.ac.kr/main/board/301" target="_blank" rel="noopener">해성공지</a>
   </footer>
@@ -152,10 +186,10 @@
 // 화면 구성: 주소 뒤 #info/menu, #notice/b301 처럼 나타냄 → 폰의 뒤로가기로 홈에 돌아올 수 있음
 // 정보에 새 항목을 넣을 땐 info.tabs 에 추가하고 RENDER 에 그리는 함수를 연결하면 돼
 const SECTIONS = {
-  info:   { title: "정보", tabs: [{ id: "menu", label: "학식" }] },
+  info:   { title: "정보", tabs: [{ id: "menu", label: "학식" }, { id: "sched", label: "학사일정" }] },
   notice: { title: "공지", tabs: [{ id: "b301", label: "해성공지" }, { id: "b264", label: "승선사관부 공지" }] },
 };
-const RENDER = { menu: () => renderMenu(), b301: () => renderBoard("b301"), b264: () => renderBoard("b264") };
+const RENDER = { menu: () => renderMenu(), sched: () => renderSchedule(), b301: () => renderBoard("b301"), b264: () => renderBoard("b264") };
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
@@ -206,12 +240,75 @@ function markRead(url) {
   try { localStorage.setItem(READ_KEY, JSON.stringify(arr)); } catch (e) {}
 }
 
+// 첨부파일 표시 (이모지 대신 선 아이콘)
+const CLIP = `<svg class="ic clip" viewBox="0 0 24 24" role="img" aria-label="첨부파일"><path d="M20.5 11.5l-8.2 8.2a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.9-7.9"/></svg>`;
+
 function renderBoard(key) {
   const d = data[key];
   if (!d) return `<div class="tip">공지 데이터를 불러오지 못했어. 잠시 후 다시 열어봐.</div>`;
-  return d.items.map((p) => `<a class="post" href="${esc(p.url)}" data-url="${esc(p.url)}" target="_blank" rel="noopener">
-      <b>${isNew(p) ? '<span class="new">NEW</span>' : ""}${p.pinned ? '<span class="pin">공지</span>' : ""}${esc(p.title)}</b>${p.hasFile ? " 📎" : ""}
+  return d.items.map((p) => `<a class="post ${p.pinned ? "pinned" : ""}" href="${esc(p.url)}" data-url="${esc(p.url)}" target="_blank" rel="noopener">
+      <b>${isNew(p) ? '<span class="new">NEW</span>' : ""}${p.pinned ? '<span class="pin">공지</span>' : ""}${esc(p.title)}</b>${p.hasFile ? CLIP : ""}
       <div class="meta">${esc(p.date)}</div></a>`).join("");
+}
+
+// ── 학사일정 달력: 월 단위 달력 + 선택한 날 일정 + 그 달 전체 일정 ──
+const pad = (n) => String(n).padStart(2, "0");
+const ymd = (y, m, d) => `${y}-${pad(m)}-${pad(d)}`;
+const WD = ["일", "월", "화", "수", "목", "금", "토"];
+const todayStr = () => { const n = new Date(); return ymd(n.getFullYear(), n.getMonth() + 1, n.getDate()); };
+const dayLabel = (s) => { const [y, m, d] = s.split("-").map(Number); return `${pad(m)}.${pad(d)}(${WD[new Date(y, m - 1, d).getDay()]})`; };
+let calMonth = null; // "YYYY-MM" 지금 보고 있는 달
+let calSel = null;   // "YYYY-MM-DD" 선택한 날
+
+function renderSchedule() {
+  const d = data.schedule;
+  if (!d || !d.items.length) return `<div class="tip">학사일정을 불러오지 못했어. 잠시 후 다시 열어봐.</div>`;
+  const items = d.items;
+  const minM = items[0].start.slice(0, 7);
+  const maxM = items.reduce((a, e) => (e.end > a ? e.end : a), "").slice(0, 7);
+  const today = todayStr();
+  if (!calMonth) {
+    const cur = today.slice(0, 7);
+    calMonth = cur < minM ? minM : cur > maxM ? maxM : cur;
+    calSel = today.startsWith(calMonth) ? today : null;
+  }
+  const [Y, M] = calMonth.split("-").map(Number);
+  const lastDay = new Date(Y, M, 0).getDate();
+  const firstDow = new Date(Y, M - 1, 1).getDay();
+  const on = (ds) => items.filter((e) => e.start <= ds && ds <= e.end);
+
+  let cells = WD.map((w) => `<div class="cal-wd">${w}</div>`).join("");
+  cells += "<div></div>".repeat(firstDow);
+  for (let day = 1; day <= lastDay; day++) {
+    const ds = ymd(Y, M, day), ev = on(ds);
+    const cls = ["cal-day", ds === today && "today", ds === calSel && "sel", ev.some((e) => e.holiday) && "hol"].filter(Boolean).join(" ");
+    cells += `<button class="${cls}" data-day="${ds}" aria-label="${M}월 ${day}일, 일정 ${ev.length}개">
+      <span class="num">${day}</span>${ev.length ? `<span class="dots">${"<i></i>".repeat(Math.min(ev.length, 3))}</span>` : ""}</button>`;
+  }
+
+  const evRow = (e, hit) => `<div class="ev ${hit ? "hit" : ""}"><span class="ev-date">${dayLabel(e.start)}${e.end !== e.start ? " – " + dayLabel(e.end) : ""}</span>
+    <span class="ev-title">${esc(e.title)}</span>${e.holiday ? '<span class="hol-chip">휴일</span>' : ""}</div>`;
+  let selBox = "";
+  if (calSel) {
+    const [, sm, sd] = calSel.split("-").map(Number);
+    const list = on(calSel);
+    selBox = `<h3 class="sch-title">${sm}월 ${sd}일 일정</h3>` + (list.length ? list.map((e) => evRow(e, true)).join("") : `<p class="empty">이 날은 등록된 일정이 없어.</p>`);
+  }
+  const mStart = ymd(Y, M, 1), mEnd = ymd(Y, M, lastDay);
+  const monthList = items.filter((e) => e.start <= mEnd && e.end >= mStart);
+
+  return `<div class="cal">
+      <div class="cal-head">
+        <button class="cal-nav" data-dir="-1" aria-label="이전 달" ${calMonth <= minM ? "disabled" : ""}>‹</button>
+        <strong>${Y}년 ${M}월</strong>
+        <button class="cal-nav" data-dir="1" aria-label="다음 달" ${calMonth >= maxM ? "disabled" : ""}>›</button>
+      </div>
+      <div class="cal-grid">${cells}</div>
+      <div class="cal-legend"><span><i class="lg-dot"></i>일정</span><span><i class="lg-hol"></i>휴일</span></div>
+    </div>
+    ${selBox}
+    <h3 class="sch-title">${M}월 전체 일정</h3>
+    ${monthList.length ? monthList.map((e) => evRow(e, calSel && e.start <= calSel && calSel <= e.end)).join("") : `<p class="empty">이 달은 등록된 일정이 없어.</p>`}`;
 }
 
 function renderTabs(sec, active) {
@@ -247,6 +344,20 @@ function route() {
   });
   // 공지를 누르면 읽음 처리 → NEW 배지와 탭 개수 갱신 (원문은 새 창으로 열림)
   $("#view").addEventListener("click", (e) => {
+    // 학사일정 달력: 이전/다음 달, 날짜 선택 (화면 위치는 그대로 유지)
+    const nav = e.target.closest(".cal-nav"), dayBtn = e.target.closest(".cal-day");
+    if (nav || dayBtn) {
+      if (nav) {
+        const [y, m] = calMonth.split("-").map(Number);
+        const dt = new Date(y, m - 1 + Number(nav.dataset.dir), 1);
+        calMonth = `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}`;
+        calSel = todayStr().startsWith(calMonth) ? todayStr() : null;
+      } else {
+        calSel = dayBtn.dataset.day;
+      }
+      $("#view").innerHTML = renderSchedule();
+      return;
+    }
     const a = e.target.closest(".post");
     if (!a) return;
     markRead(a.dataset.url);
@@ -257,7 +368,7 @@ function route() {
   });
   window.addEventListener("hashchange", route);
 
-  [data.menu, data.b264, data.b301] = await Promise.all([load("menu.json"), load("board264.json"), load("board301.json")]);
+  [data.menu, data.b264, data.b301, data.schedule] = await Promise.all([load("menu.json"), load("board264.json"), load("board301.json"), load("schedule.json")]);
   const t = (data.menu || data.b264 || {}).updatedAt;
   $("#updated").textContent = t ? "데이터 갱신: " + new Date(t).toLocaleString("ko-KR") : "데이터를 불러오지 못했어";
   route();
