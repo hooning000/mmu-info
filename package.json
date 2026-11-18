@@ -1,0 +1,10 @@
+{
+  "name": "mmu-info-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "목포해양대 비공식 정보 웹앱",
+  "scripts": {
+    "update": "node scripts/update.js",
+    "start": "python3 -m http.server 8000"
+  }
+}

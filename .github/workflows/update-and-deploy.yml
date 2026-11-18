@@ -1,0 +1,56 @@
+# 3시간마다 학교 사이트에서 식단·공지를 새로 받아 저장하고, GitHub Pages로 배포한다.
+# Actions 탭에서 "Run workflow" 버튼으로 바로 실행할 수도 있다.
+name: update-and-deploy
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"   # UTC 기준 3시간마다 (한국 시간 0, 3, 6, 9...시)
+  workflow_dispatch:         # 수동 실행 버튼
+  push:
+    branches: [main]
+
+permissions:
+  contents: write   # 갱신된 data/*.json 커밋
+  pages: write      # Pages 배포
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 학교 사이트가 막히거나 구조가 바뀌어도 기존 데이터로 배포는 계속하도록 continue-on-error
+      - name: 데이터 갱신
+        run: node scripts/update.js
+        continue-on-error: true
+
+      - name: 바뀐 데이터 커밋
+        run: |
+          if [ -n "$(git status --porcelain data)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data
+            git commit -m "데이터 자동 갱신"
+            git push
+          else
+            echo "변경 없음"
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deploy
+        uses: actions/deploy-pages@v4

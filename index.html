@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>해양대 정보</title>
+<style>
+  @font-face { font-family: "Kakao Big Sans"; font-weight: 400; src: url(fonts/KakaoBigSans-Regular.ttf); }
+  @font-face { font-family: "Kakao Big Sans"; font-weight: 700; src: url(fonts/KakaoBigSans-Bold.ttf); }
+  @font-face { font-family: "Kakao Big Sans"; font-weight: 800; src: url(fonts/KakaoBigSans-ExtraBold.ttf); }
+  :root { --main:#C9B8A3; --sub:#F1EBE3; --point:#CBD5C0; --point-l:#E8EDE2; --ink:#6E6256; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#fff; color:var(--ink); font:400 16px/1.6 "Kakao Big Sans", -apple-system, sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 40px; }
+  h1 { font-weight:800; font-size:25px; margin:0 0 4px; padding-bottom:8px; border-bottom:3px solid var(--main); }
+  .sub { font-size:13px; margin:8px 0 16px; }
+  .tabs { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .tab { border:1px solid var(--sub); background:#fff; color:var(--ink); font:700 14px "Kakao Big Sans"; padding:8px 14px; border-radius:20px; cursor:pointer; }
+  .tab.on { background:var(--sub); border-color:var(--main); }
+  .card { border:1px solid var(--sub); border-left:5px solid var(--main); border-radius:10px; padding:12px 14px; margin-bottom:12px; }
+  .card.today { border-left-color: var(--point); background: var(--point-l); }
+  .day { font-weight:800; font-size:16px; margin-bottom:6px; }
+  .day small { font-weight:400; }
+  .badge { font-size:12px; background:#fff; border:1px solid var(--point); border-radius:10px; padding:0 8px; margin-left:6px; }
+  .meals { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
+  .meal h3 { font-size:14px; font-weight:700; margin:0 0 4px; background:var(--sub); padding:2px 8px; border-radius:6px; display:inline-block; }
+  .meal ul { margin:0; padding-left:16px; font-size:13px; line-height:1.5; }
+  @media (max-width:560px) { .meals { grid-template-columns:1fr; } }
+  .post { display:block; text-decoration:none; color:var(--ink); border:1px solid var(--sub); border-radius:10px; padding:10px 14px; margin-bottom:8px; }
+  .post:active { background:var(--sub); }
+  .post b { font-weight:700; }
+  .meta { font-size:12px; margin-top:2px; }
+  .pin { font-size:12px; background:var(--sub); border-radius:8px; padding:0 6px; margin-right:6px; }
+  .tip { background:var(--point-l); border:1px solid var(--point); border-radius:10px; padding:12px 14px; }
+  .btn { display:inline-block; margin-top:8px; padding:8px 14px; border:1px solid var(--main); border-radius:20px; color:var(--ink); text-decoration:none; font-weight:700; font-size:14px; }
+  footer { font-size:12px; margin-top:28px; border-top:1px solid var(--sub); padding-top:12px; }
+  footer a { color:var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>해양대 정보</h1>
+  <div class="sub" id="updated">불러오는 중…</div>
+  <div class="tabs" id="tabs"></div>
+  <div id="view"></div>
+  <footer>
+    비공식 개인용 앱이야. 정확한 내용은 학교 홈페이지에서 꼭 확인해.<br>
+    원문:
+    <a href="https://www.mmu.ac.kr/main/contents/todayMenu2" target="_blank" rel="noopener">식단표</a> ·
+    <a href="https://www.mmu.ac.kr/main/board/264" target="_blank" rel="noopener">승선사관부 공지</a> ·
+    <a href="https://www.mmu.ac.kr/main/board/301" target="_blank" rel="noopener">해성공지</a>
+  </footer>
+</div>
+<script>
+const TABS = [
+  { id: "menu", label: "식단" },
+  { id: "b264", label: "승선사관부 공지" },
+  { id: "b301", label: "해성공지" },
+];
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const data = {};
+
+async function load(file) {
+  try {
+    const r = await fetch("data/" + file, { cache: "no-store" });
+    if (!r.ok) throw new Error(r.status);
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+function renderMenu() {
+  const d = data.menu;
+  if (!d) return `<div class="tip">식단 데이터가 없어. 터미널에서 <b>npm run update</b>를 실행해줘.</div>`;
+  const now = new Date(), today = `${now.getMonth() + 1}/${now.getDate()}`;
+  const meal = (name, list) => `<div class="meal"><h3>${name}</h3><ul>${list.map((m) => `<li>${esc(m)}</li>`).join("")}</ul></div>`;
+  return d.items.map((x) => {
+    const isToday = x.date === today;
+    return `<div class="card ${isToday ? "today" : ""}"><div class="day">${esc(x.date)} <small>${esc(x.dow)}</small>${isToday ? '<span class="badge">오늘</span>' : ""}</div>
+      <div class="meals">${meal("아침", x.breakfast)}${meal("점심", x.lunch)}${meal("저녁", x.dinner)}</div></div>`;
+  }).join("") + `<div class="meta">※ 승선생활관 식단표 기준</div>`;
+}
+
+function renderBoard(key, fallbackUrl) {
+  const d = data[key];
+  if (!d) return `<div class="tip">공지 데이터가 없어. 터미널에서 <b>npm run update</b>를 실행해줘.</div>`;
+  return d.items.map((p) => `<a class="post" href="${esc(p.url)}" target="_blank" rel="noopener">
+      <b>${p.pinned ? '<span class="pin">공지</span>' : ""}${esc(p.title)}</b>${p.hasFile ? " 📎" : ""}
+      <div class="meta">${esc(p.date)}</div></a>`).join("");
+}
+
+function show(id) {
+  try { localStorage.setItem("tab", id); } catch (e) {}
+  document.querySelectorAll(".tab").forEach((b) => b.classList.toggle("on", b.dataset.id === id));
+  $("#view").innerHTML = id === "menu" ? renderMenu() : id === "b264" ? renderBoard("b264") : renderBoard("b301");
+  const td = document.querySelector(".card.today");
+  if (td) td.scrollIntoView({ block: "start" }); // 오늘 식단으로 바로 이동
+}
+
+(async () => {
+  $("#tabs").innerHTML = TABS.map((t) => `<button class="tab" data-id="${t.id}">${t.label}</button>`).join("");
+  $("#tabs").addEventListener("click", (e) => { if (e.target.dataset.id) show(e.target.dataset.id); });
+  [data.menu, data.b264, data.b301] = await Promise.all([load("menu.json"), load("board264.json"), load("board301.json")]);
+  const t = (data.menu || data.b264 || {}).updatedAt;
+  $("#updated").textContent = t ? "데이터 갱신: " + new Date(t).toLocaleString("ko-KR") : "데이터 없음";
+  let start = "menu"; try { start = localStorage.getItem("tab") || "menu"; } catch (e) {}
+  show(TABS.some((x) => x.id === start) ? start : "menu");
+})();
+</script>
+</body>
+</html>
