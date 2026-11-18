@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-18T08:49:47.558Z",
+  "updatedAt": "2026-11-18T11:24:52.750Z",
   "items": [
     {
       "title": "[앵커사업] 창업 IP 창출 특허캠프 참여학생 모집",
@@ -61,13 +61,6 @@
       "title": "[GPS교육혁신본부] 2026학년도 바이브코딩 심화 특강 및 경진대회 참여자 모집 안내(수정)",
       "date": "2026-11-09",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/89989",
-      "pinned": true,
-      "hasFile": true
-    },
-    {
-      "title": "[GPS교육혁신본부] 2026 전남 광주 U-토론 페스티벌 청중평가단 모집 안내",
-      "date": "2026-11-02",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90028",
       "pinned": true,
       "hasFile": true
     },
@@ -268,6 +261,13 @@
       "hasFile": false
     },
     {
+      "title": "[GPS교육혁신본부] 2026 전남 광주 U-토론 페스티벌 청중평가단 모집 안내",
+      "date": "2026-11-02",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90028",
+      "pinned": false,
+      "hasFile": true
+    },
+    {
       "title": "[국립대학육성사업] 2026 가을 문학기행 참여자 모집",
       "date": "2026-11-02",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90027",
@@ -420,13 +420,6 @@
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/89887",
       "pinned": false,
       "hasFile": false
-    },
-    {
-      "title": "[해운항만물류인력양성사업단] H라인 2026학년도 동계방학 인턴(대상 해사대 3학년 실습생) 모집",
-      "date": "2026-10-19",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89885",
-      "pinned": false,
-      "hasFile": true
     }
   ]
 }
