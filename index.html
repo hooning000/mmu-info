@@ -19,9 +19,11 @@
     --bg:#FFFFFF;      /* 페이지 바탕 */
   }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:400 16px/1.6 "Noto Sans KR", -apple-system, sans-serif; }
+  /* 화면이 내용보다 길어도(컴퓨터 등) 맨 아래 물결이 화면 바닥에 붙도록 세로 flex */
+  body { margin:0; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column;
+         background:var(--bg); color:var(--ink); font:400 16px/1.6 "Noto Sans KR", -apple-system, sans-serif; }
   button { font-family:inherit; }
-  .wrap { max-width:480px; margin:0 auto; padding:0 16px; }
+  .wrap { width:100%; max-width:480px; margin:0 auto; padding:0 16px; }
   [hidden] { display:none !important; }
   .ic { fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
 
@@ -85,7 +87,8 @@
   /* ── 푸터와 맨 아래 물결 ── */
   footer { margin-top:24px; border-top:1.5px solid var(--wave); padding-top:10px; font-size:13px; line-height:1.6; color:var(--ink-sub); }
   footer a { display:inline-block; padding:10px 2px; color:var(--sea); }  /* 터치 영역 확보 */
-  .foot-waves { display:block; width:100%; height:56px; margin-top:16px; }
+  .foot-waves { display:block; flex-shrink:0; width:100%; height:56px; margin-top:auto; }
+  footer { margin-bottom:16px; }  /* 내용이 길 때 물결과의 간격 */
   .fw-back { fill:var(--foam); }
   .fw-front { fill:var(--wave); }
 
