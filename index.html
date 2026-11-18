@@ -4,76 +4,126 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MMU INFO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-  @font-face { font-family: "Kakao Big Sans"; font-weight: 400; src: url(fonts/KakaoBigSans-Regular.ttf); }
-  @font-face { font-family: "Kakao Big Sans"; font-weight: 700; src: url(fonts/KakaoBigSans-Bold.ttf); }
-  @font-face { font-family: "Kakao Big Sans"; font-weight: 800; src: url(fonts/KakaoBigSans-ExtraBold.ttf); }
-  :root { --main:#C9B8A3; --sub:#F1EBE3; --point:#CBD5C0; --point-l:#E8EDE2; --ink:#6E6256; }
+  /* ── A안 바다 블루 ── */
+  :root {
+    --sea:#2F6C9F;     /* 바다: 헤더 배경, 아이콘, 링크 */
+    --wave:#BFDDF0;    /* 파도: 테두리, 물결 장식, 구분선 */
+    --foam:#EEF6FB;    /* 거품: 버튼과 카드 바탕 */
+    --buoy:#C8442F;    /* 부표 코랄: 메인 공지 카드 뱃지에만 사용 */
+    --ink:#1E3448;     /* 본문, 제목 글씨 */
+    --ink-sub:#4F647A; /* 보조 글씨 */
+    --bg:#FFFFFF;      /* 페이지 바탕 */
+  }
   * { box-sizing: border-box; }
-  body { margin:0; background:#fff; color:var(--ink); font:400 16px/1.6 "Kakao Big Sans", -apple-system, sans-serif; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 40px; }
-  .sub { font-size:13px; margin:8px 0 16px; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:400 16px/1.6 "Noto Sans KR", -apple-system, sans-serif; }
+  button { font-family:inherit; }
+  .wrap { max-width:480px; margin:0 auto; padding:0 16px; }
   [hidden] { display:none !important; }
+  .ic { fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
 
-  /* ── 메인화면 ── */
-  #home { text-align:center; padding-top:8vh; }
-  .logo { font-weight:800; font-size:40px; letter-spacing:3px; margin:0; display:inline-block; padding:0 6px 6px; border-bottom:3px solid var(--main); }
-  .home-grid { display:flex; justify-content:center; gap:20px; margin:20px 0 24px; flex-wrap:wrap; }
-  .tile, .wide { border-radius:28px; background:var(--sub); border:1px solid var(--main); text-decoration:none; color:var(--ink); transition:transform .1s; }
-  .tile { position:relative; width:min(40vw, 200px); aspect-ratio:1 / 1;
-          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
-  /* 홈페이지 바로가기: 타일 두 개 + 사이 간격만큼 가로로 긴 버튼 */
-  .wide { display:flex; align-items:center; justify-content:center; width:calc(2 * min(40vw, 200px) + 20px); height:72px; margin:36px auto 0; font-weight:800; font-size:20px; }
+  /* ── 메인화면: 헤더 ── */
+  .hero { position:relative; min-height:236px; background:var(--sea); color:#fff; text-align:center; padding:34px 16px 52px; }
+  .hero .ic { width:40px; height:40px; color:#fff; }
+  .logo { font-weight:800; font-size:36px; letter-spacing:3px; line-height:1.2; margin:6px 0 4px; color:#fff; }
+  .tagline { font-size:14px; margin:0; color:#fff; }
+  .hero-waves { position:absolute; left:0; bottom:-1px; display:block; width:100%; height:46px; }
+  .w-back { fill:var(--wave); }
+  .w-front { fill:var(--bg); }
+
+  /* ── 메인화면: 버튼과 카드 ── */
+  .wide { display:flex; align-items:center; justify-content:center; gap:10px; height:60px; margin-top:10px; border-radius:999px;
+          background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none; font-weight:800; font-size:18px; }
+  .wide .ic { width:22px; height:22px; color:var(--sea); }
+  .home-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0 18px; }
+  .tile { position:relative; height:176px; border-radius:24px; background:var(--foam); border:1.5px solid var(--wave); color:var(--ink); text-decoration:none;
+          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
+  .tile-icon { display:grid; place-items:center; width:52px; height:52px; margin-bottom:6px; border-radius:50%; background:#fff; border:1.5px solid var(--wave); }
+  .tile-icon .ic { width:26px; height:26px; color:var(--sea); }
+  .tile-title { font-weight:800; font-size:22px; line-height:1.3; }
+  .tile-desc { font-size:13px; color:var(--ink-sub); }
+  .tile .cnt { position:absolute; top:12px; right:12px; margin:0; min-width:24px; height:24px; line-height:24px; padding:0 7px;
+               border-radius:999px; background:var(--buoy); color:#fff; font-size:13px; font-weight:700; }
+  .tile, .wide { transition:transform .15s; }
   .tile:active, .wide:active { transform:scale(.97); }
-  .tile-title { font-weight:800; font-size:26px; }
-  .tile-desc { font-size:13px; }
-  .tile .cnt { position:absolute; top:12px; right:12px; }
+  #updated { font-size:13px; color:var(--ink-sub); text-align:center; margin:0 0 8px; }
 
   /* ── 정보·공지 화면: 상단바와 탭이 함께 위에 고정 ── */
-  .head { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--sub); padding-top:4px; }
+  #page { padding-top:12px; }
+  .head { position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1.5px solid var(--wave); padding-top:4px; }
   .topbar { display:flex; align-items:center; gap:10px; }
-  .back { text-decoration:none; color:var(--ink); font-weight:700; font-size:14px; border:1px solid var(--sub); border-radius:20px; padding:4px 12px; }
+  .back { display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:999px; background:var(--foam); border:1.5px solid var(--wave);
+          color:var(--ink); text-decoration:none; font-weight:700; font-size:14px; }
   .page-title { font-weight:800; font-size:22px; }
   .tabs { display:flex; gap:8px; flex-wrap:wrap; padding:10px 0; }
-  .card { scroll-margin-top: 110px; }
-  .tab { border:1px solid var(--sub); background:#fff; color:var(--ink); font:700 14px "Kakao Big Sans"; padding:8px 14px; border-radius:20px; cursor:pointer; }
-  .tab.on { background:var(--sub); border-color:var(--main); }
+  .tab { min-height:44px; padding:0 16px; border-radius:999px; border:1.5px solid var(--wave); background:var(--bg); color:var(--ink); font-weight:700; font-size:14px; cursor:pointer; }
+  .tab.on { background:var(--foam); border-color:var(--sea); }
   #view { margin-top:16px; }
 
-  .card { border:1px solid var(--sub); border-left:5px solid var(--main); border-radius:10px; padding:12px 14px; margin-bottom:12px; }
-  .card.today { border-left-color: var(--point); background: var(--point-l); }
+  .card { scroll-margin-top:120px; border:1.5px solid var(--wave); border-left:5px solid var(--wave); border-radius:14px; padding:12px 14px; margin-bottom:12px; }
+  .card.today { border-left-color:var(--sea); background:var(--foam); }
   .day { font-weight:800; font-size:16px; margin-bottom:6px; }
-  .day small { font-weight:400; }
-  .badge { font-size:12px; background:#fff; border:1px solid var(--point); border-radius:10px; padding:0 8px; margin-left:6px; }
-  .meals { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
-  .meal h3 { font-size:14px; font-weight:700; margin:0 0 4px; background:var(--sub); padding:2px 8px; border-radius:6px; display:inline-block; }
+  .day small { font-weight:400; color:var(--ink-sub); }
+  .badge { font-size:12px; font-weight:700; background:var(--bg); border:1.5px solid var(--sea); border-radius:999px; padding:0 8px; margin-left:6px; }
+  .meals { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .meal h3 { display:inline-block; font-size:14px; font-weight:700; margin:0 0 4px; padding:2px 10px; border-radius:999px; background:var(--foam); border:1.5px solid var(--wave); }
+  .card.today .meal h3 { background:var(--bg); }
   .meal ul { margin:0; padding-left:16px; font-size:13px; line-height:1.5; }
   @media (max-width:560px) { .meals { grid-template-columns:1fr; } }
-  .post { display:block; text-decoration:none; color:var(--ink); border:1px solid var(--sub); border-radius:10px; padding:10px 14px; margin-bottom:8px; }
-  .post:active { background:var(--sub); }
+  .post { display:block; text-decoration:none; color:var(--ink); border:1.5px solid var(--wave); border-radius:14px; padding:10px 14px; margin-bottom:8px; }
+  .post:active { background:var(--foam); }
   .post b { font-weight:700; }
-  .meta { font-size:12px; margin-top:2px; }
-  .pin { font-size:12px; background:var(--sub); border-radius:8px; padding:0 6px; margin-right:6px; }
-  .new { font-size:11px; font-weight:800; background:var(--point-l); border:1px solid var(--point); border-radius:8px; padding:0 6px; margin-right:6px; letter-spacing:.5px; }
-  .cnt { display:inline-block; min-width:18px; margin-left:6px; padding:0 5px; font-size:11px; font-weight:700; line-height:18px; text-align:center; border-radius:9px; background:var(--point); }
-  .tip { background:var(--point-l); border:1px solid var(--point); border-radius:10px; padding:12px 14px; }
-  footer { font-size:12px; margin-top:28px; border-top:1px solid var(--sub); padding-top:12px; }
-  footer a { color:var(--ink); }
+  .meta { font-size:13px; color:var(--ink-sub); margin-top:2px; }
+  .pin { font-size:12px; font-weight:500; background:var(--foam); border:1.5px solid var(--wave); border-radius:999px; padding:0 7px; margin-right:6px; }
+  .new { font-size:11px; font-weight:800; background:var(--bg); border:1.5px solid var(--sea); border-radius:999px; padding:0 7px; margin-right:6px; letter-spacing:.5px; }
+  .cnt { display:inline-block; min-width:20px; margin-left:6px; padding:0 6px; font-size:12px; font-weight:700; line-height:20px; text-align:center; border-radius:999px; background:var(--wave); color:var(--ink); }
+  .tip { background:var(--foam); border:1.5px solid var(--wave); border-radius:14px; padding:12px 14px; }
+
+  /* ── 푸터와 맨 아래 물결 ── */
+  footer { margin-top:24px; border-top:1.5px solid var(--wave); padding-top:10px; font-size:13px; line-height:1.6; color:var(--ink-sub); }
+  footer a { display:inline-block; padding:10px 2px; color:var(--sea); }  /* 터치 영역 확보 */
+  .foot-waves { display:block; width:100%; height:56px; margin-top:16px; }
+  .fw-back { fill:var(--foam); }
+  .fw-front { fill:var(--wave); }
+
+  /* 움직임 줄이기 설정이면 애니메이션 끄기 */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+    .tile:active, .wide:active { transform:none; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <!-- 메인화면 -->
-  <section id="home">
+<!-- 메인화면 -->
+<section id="home">
+  <header class="hero">
+    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21M8 11h8M4.5 13.5c.6 4 3.8 7.5 7.5 7.5s6.9-3.5 7.5-7.5"/></svg>
     <h1 class="logo">MMU INFO</h1>
-    <a class="wide" href="https://www.mmu.ac.kr/main" target="_blank" rel="noopener">홈페이지 바로가기</a>
+    <p class="tagline">목포해양대학교 정보 앱</p>
+    <svg class="hero-waves" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="w-back" d="M0,38 C240,88 480,0 720,38 C960,78 1200,8 1440,44 L1440,100 L0,100 Z"/>
+      <path class="w-front" d="M0,66 C200,30 440,96 720,62 C1000,30 1240,92 1440,60 L1440,100 L0,100 Z"/>
+    </svg>
+  </header>
+  <div class="wrap">
+    <a class="wide" href="https://www.mmu.ac.kr/main" target="_blank" rel="noopener">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>홈페이지 바로가기</a>
     <div class="home-grid">
-      <a class="tile" href="#info"><span class="tile-title">정보</span><span class="tile-desc">학식</span></a>
-      <a class="tile" href="#notice"><span class="tile-title">공지</span><span class="tile-desc">해성공지 · 승선사관부</span><span id="noticeCnt"></span></a>
+      <a class="tile" href="#info">
+        <span class="tile-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v8a3 3 0 0 0 6 0V3M8 3v18M17 3c-2 2-3 4.5-3 8h3v10"/></svg></span>
+        <span class="tile-title">정보</span><span class="tile-desc">학식</span></a>
+      <a class="tile" href="#notice">
+        <span class="tile-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4M6 5h12l-3 3.5L18 12H6"/></svg></span>
+        <span class="tile-title">공지</span><span class="tile-desc">해성공지 · 승선사관부</span><span id="noticeCnt"></span></a>
     </div>
-    <div class="sub" id="updated">불러오는 중…</div>
-  </section>
+    <div id="updated">불러오는 중…</div>
+  </div>
+</section>
 
+<div class="wrap">
   <!-- 정보·공지 화면 -->
   <section id="page" hidden>
     <div class="head">
@@ -91,6 +141,10 @@
     <a href="https://www.mmu.ac.kr/main/board/301" target="_blank" rel="noopener">해성공지</a>
   </footer>
 </div>
+<svg class="foot-waves" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+  <path class="fw-back" d="M0,30 C240,70 480,0 720,32 C960,64 1200,6 1440,36 L1440,100 L0,100 Z"/>
+  <path class="fw-front" d="M0,62 C220,34 460,92 720,64 C980,36 1220,90 1440,62 L1440,100 L0,100 Z"/>
+</svg>
 <script>
 // 화면 구성: 주소 뒤 #info/menu, #notice/b301 처럼 나타냄 → 폰의 뒤로가기로 홈에 돌아올 수 있음
 // 정보에 새 항목을 넣을 땐 info.tabs 에 추가하고 RENDER 에 그리는 함수를 연결하면 돼
