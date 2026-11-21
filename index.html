@@ -253,10 +253,13 @@ async function load(file) {
 function renderMenu() {
   const d = data.menu;
   if (!d) return `<div class="tip">학식 데이터를 불러오지 못했어. 잠시 후 다시 열어봐.</div>`;
-  const now = new Date(), today = `${now.getMonth() + 1}/${now.getDate()}`;
   const meal = (name, list) => `<div class="meal"><h3>${name}</h3><ul>${list.map((m) => `<li>${esc(m)}</li>`).join("")}</ul></div>`;
-  return d.items.map((x) => {
-    const isToday = x.date === today;
+  // 지난 날짜는 빼고 오늘부터 최대 7일치만 날짜순으로
+  const todayYmd = todayStr();
+  const days = d.items.filter((x) => x.ymd && x.ymd >= todayYmd).sort((a, b) => a.ymd.localeCompare(b.ymd)).slice(0, 7);
+  if (!days.length) return `<div class="tip">오늘 이후 식단이 아직 올라오지 않았어. 잠시 후 다시 열어봐.</div>`;
+  return days.map((x) => {
+    const isToday = x.ymd === todayYmd;
     return `<div class="card ${isToday ? "today" : ""}"><div class="day">${esc(x.date)} <small>${esc(x.dow)}</small>${isToday ? '<span class="badge">오늘</span>' : ""}</div>
       <div class="meals">${meal("아침", x.breakfast)}${meal("점심", x.lunch)}${meal("저녁", x.dinner)}</div></div>`;
   }).join("") + `<div class="meta">※ 승선생활관 식단표 기준</div>`;
@@ -386,9 +389,7 @@ function route() {
   $("#pageTitle").textContent = s.title;
   renderTabs(sec, tab);
   $("#view").innerHTML = RENDER[tab]();
-  const td = document.querySelector(".card.today");
-  if (td) td.scrollIntoView({ block: "start" }); // 학식: 오늘 식단으로 바로 이동
-  else window.scrollTo(0, 0);                    // 공지: 맨 위부터
+  window.scrollTo(0, 0); // 맨 위부터 (학식은 오늘이 첫 카드라 바로 보임)
 }
 
 (async () => {

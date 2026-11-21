@@ -61,9 +61,21 @@ async function menu() {
     if (tds.length < 4) continue;
     const [md, dow] = clean(tds[0]).split("\n");
     const list = (s) => clean(s).split("\n").filter(Boolean);
-    days.push({ date: md, dow, breakfast: list(tds[1]), lunch: list(tds[2]), dinner: list(tds[3]) });
+    days.push({ date: md, ymd: toYmd(md), dow, breakfast: list(tds[1]), lunch: list(tds[2]), dinner: list(tds[3]) });
   }
-  return days;
+  // 학교 표는 지난 날 자리에 다음 주 날짜를 끼워 넣어 순서가 섞여 있음 → 날짜순 정렬
+  return days.sort((a, b) => a.ymd.localeCompare(b.ymd));
+}
+
+// "11/22" → "2026-11-22". 연도는 오늘 기준으로 붙이고, 12월↔1월처럼 해가 바뀌는 경우를 보정
+function toYmd(md) {
+  const [m, d] = String(md).split("/").map(Number);
+  const now = new Date(Date.now() + 9 * 3600 * 1000); // 한국 시간 기준
+  let y = now.getUTCFullYear();
+  const cur = now.getUTCMonth() + 1;
+  if (m - cur > 6) y -= 1;       // 예: 1월에 받은 12월 식단 → 작년
+  else if (cur - m > 6) y += 1;  // 예: 12월에 받은 1월 식단 → 내년
+  return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
 // 학사일정: 학교 사이트가 쓰는 JSON 주소(/main/scheduleList)에서 학년도별로 받음
