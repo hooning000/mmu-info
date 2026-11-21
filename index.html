@@ -33,7 +33,7 @@
   .art { position:relative; flex-shrink:0; min-height:236px; padding:34px 16px 52px; background:var(--sea); text-align:center; }
   .art-img { display:none; }
   .art-title { color:#fff; }
-  .art-title .ic { width:40px; height:40px; color:#fff; }
+  .mascot { display:block; height:96px; width:auto; margin:0 auto; }  /* 닻 마스코트 (배경 투명) */
   .logo { font-weight:800; font-size:36px; letter-spacing:3px; line-height:1.2; margin:6px 0 4px; color:#fff; }
   .tagline { font-size:14px; margin:0; color:#fff; }
   .art-wave { position:absolute; left:0; bottom:-1px; display:block; width:100%; height:46px; }
@@ -75,7 +75,7 @@
     .layout:has(#page:not([hidden])) .art { display:block; }
     .art-img { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:40% 50%; }
     .art-title { position:absolute; left:56px; top:80px; color:var(--ink); }
-    .art-title .ic { width:48px; height:48px; color:var(--ink); }
+    .mascot { height:128px; margin:0; }
     .logo { font-size:48px; letter-spacing:4px; margin:4px 0 2px; color:var(--ink); }
     .tagline { font-size:16px; font-weight:500; color:var(--ink); }
     .art-wave, .foot-waves { display:none; }
@@ -179,7 +179,7 @@
   <header class="art">
     <img class="art-img" src="assets/sea.webp" alt="" width="632" height="972">
     <div class="art-title">
-      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21M8 11h8M4.5 13.5c.6 4 3.8 7.5 7.5 7.5s6.9-3.5 7.5-7.5"/></svg>
+      <img class="mascot" src="assets/mascot.webp" alt="" width="231" height="320">
       <h1 class="logo">MMU INFO</h1>
       <p class="tagline">목포해양대학교 정보 앱</p>
     </div>
