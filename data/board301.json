@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-22T10:57:47.733Z",
+  "updatedAt": "2026-11-22T19:19:56.362Z",
   "items": [
     {
       "title": "[교원양성지원센터] 2027학년도 교직과정이수예정자 추가 모집(항해정보시스템학부, 기관시스템공학부) 안내",
@@ -7,13 +7,6 @@
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90195",
       "pinned": true,
       "hasFile": true
-    },
-    {
-      "title": "[GPS교육혁신본부] 2026학년도 학습법 대면 특강 3차- AI 차별화와 윤리",
-      "date": "2026-11-16",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90193",
-      "pinned": true,
-      "hasFile": false
     },
     {
       "title": "[국립대학육성사업] 제7회 국립대학육성사업 영상 콘텐츠 공모전 개최 안내",
@@ -75,6 +68,13 @@
       "title": "[해군본부] 해군 지역인재 및 기술직 군무원 모집 설명회 개최(11/20)",
       "date": "2026-11-16",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90197",
+      "pinned": false,
+      "hasFile": false
+    },
+    {
+      "title": "[GPS교육혁신본부] 2026학년도 학습법 대면 특강 3차- AI 차별화와 윤리",
+      "date": "2026-11-16",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90193",
       "pinned": false,
       "hasFile": false
     },
@@ -376,13 +376,6 @@
       "title": "고전압 선박 승선 자격취득 교육이수 안내 및 모집 ( 종료)",
       "date": "2026-10-21",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/89917",
-      "pinned": false,
-      "hasFile": false
-    },
-    {
-      "title": "2026년 도서관 추천도서 공모전",
-      "date": "2026-10-21",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89914",
       "pinned": false,
       "hasFile": false
     }
