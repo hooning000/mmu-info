@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-23T12:05:16.216Z",
+  "updatedAt": "2026-11-24T02:04:46.585Z",
   "items": [
     {
       "title": "[GPS교육혁신본부] 2026학년도 2학기 학습법 특강 4차 - 시험 전략 특강 (AI 시대, 시험 준비의 패러다임을 바꾸다)",
@@ -34,6 +34,20 @@
       "date": "2026-11-09",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90261",
       "pinned": true,
+      "hasFile": false
+    },
+    {
+      "title": "[산업체 대상] 2026학년도 국립목포해양대학교 교육수요자 만족도 조사 안내",
+      "date": "2026-11-24",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90282",
+      "pinned": false,
+      "hasFile": false
+    },
+    {
+      "title": "[졸업생 대상] 2026학년도 국립목포해양대학교 교육수요자 만족도 조사 안내",
+      "date": "2026-11-24",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90281",
+      "pinned": false,
       "hasFile": false
     },
     {
@@ -369,20 +383,6 @@
       "title": "[대한적십자사] 2026년 의료관리자 자격발급을 위한 '적십자 응급처치 일반과정' 운영 안내",
       "date": "2026-10-26",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/89961",
-      "pinned": false,
-      "hasFile": true
-    },
-    {
-      "title": "[GPS교육혁신본부] 광주전남공동혁신센터 주관 \"대학생 학습고민타파 아이디어 경진대회\" 모집 안내",
-      "date": "2026-10-23",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89946",
-      "pinned": false,
-      "hasFile": false
-    },
-    {
-      "title": "[GPS교육혁신본부]Re:Start 학습도약 프로그램 참여학생 추가 모집 (재학생 누구나)",
-      "date": "2026-10-23",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89933",
       "pinned": false,
       "hasFile": true
     }
