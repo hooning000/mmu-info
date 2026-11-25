@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-25T07:56:54.170Z",
+  "updatedAt": "2026-11-25T19:04:25.781Z",
   "items": [
     {
       "title": "2026학년도 동계방학 중 공대생활관 이용자 모집 안내",
@@ -30,18 +30,18 @@
       "hasFile": true
     },
     {
-      "title": "[기획조정처] 제8회 MMU Story 사진 공모전 안내",
-      "date": "2026-11-13",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89916",
-      "pinned": true,
-      "hasFile": true
-    },
-    {
       "title": "[GPS교육혁신본부] 영상 편집 프로그램(곰믹스 비즈니스) 라이선스 대여 안내",
       "date": "2026-11-09",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90261",
       "pinned": true,
       "hasFile": false
+    },
+    {
+      "title": "[중요][한국해양수산연수원] 2026년도 임시 제30회 해기사(G.O.C 면접) 시험 시행 안내",
+      "date": "2026-11-25",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90323",
+      "pinned": false,
+      "hasFile": true
     },
     {
       "title": "2026학년도 동계방학 중 해사대 재학생 공대생활관 이용자 모집 안내",
@@ -145,6 +145,13 @@
       "title": "2026학년도 동계방학 국외어학연수 선발 안내",
       "date": "2026-11-13",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90183",
+      "pinned": false,
+      "hasFile": true
+    },
+    {
+      "title": "[기획조정처] 제8회 MMU Story 사진 공모전 안내",
+      "date": "2026-11-13",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89916",
       "pinned": false,
       "hasFile": true
     },
@@ -378,20 +385,6 @@
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90000",
       "pinned": false,
       "hasFile": false
-    },
-    {
-      "title": "2026학년도 제7회 모의토익 시험 운영 안내",
-      "date": "2026-10-28",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90040",
-      "pinned": false,
-      "hasFile": true
-    },
-    {
-      "title": "2026 전남·광주 대학생 창업아이디어 경진대회 홍보 안내",
-      "date": "2026-10-28",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89986",
-      "pinned": false,
-      "hasFile": true
     }
   ]
 }
