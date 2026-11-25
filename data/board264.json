@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T23:49:25.723Z",
+  "updatedAt": "2026-11-25T07:56:54.170Z",
   "items": [
     {
       "title": "이의제기 신청서 및 예시",
@@ -20,6 +20,20 @@
       "date": "2026-10-23",
       "url": "https://www.mmu.ac.kr/main/board/264/1/read/89451",
       "pinned": true,
+      "hasFile": true
+    },
+    {
+      "title": "2026학년도 2학기 12월 야간안전당직 공고",
+      "date": "2026-11-25",
+      "url": "https://www.mmu.ac.kr/main/board/264/1/read/90322",
+      "pinned": false,
+      "hasFile": true
+    },
+    {
+      "title": "2026학년도 2학기 12월 학생당직 공고",
+      "date": "2026-11-25",
+      "url": "https://www.mmu.ac.kr/main/board/264/1/read/90321",
+      "pinned": false,
       "hasFile": true
     },
     {
@@ -89,20 +103,6 @@
       "title": "2026학년도 11월 03일 (화) 1, 2, 4학년 동정복 복장 점검 공고",
       "date": "2026-11-02",
       "url": "https://www.mmu.ac.kr/main/board/264/1/read/90023",
-      "pinned": false,
-      "hasFile": true
-    },
-    {
-      "title": "2026학년도 11월 01일 (일) 위생점검 공고",
-      "date": "2026-10-31",
-      "url": "https://www.mmu.ac.kr/main/board/264/1/read/90011",
-      "pinned": false,
-      "hasFile": true
-    },
-    {
-      "title": "2026학년도 2학기 11월 야간안전당직 공고",
-      "date": "2026-10-25",
-      "url": "https://www.mmu.ac.kr/main/board/264/1/read/89952",
       "pinned": false,
       "hasFile": true
     }

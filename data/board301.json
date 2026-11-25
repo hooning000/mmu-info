@@ -1,6 +1,13 @@
 {
-  "updatedAt": "2026-11-24T23:49:25.723Z",
+  "updatedAt": "2026-11-25T07:56:54.170Z",
   "items": [
+    {
+      "title": "2026학년도 동계방학 중 공대생활관 이용자 모집 안내",
+      "date": "2026-11-25",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90314",
+      "pinned": true,
+      "hasFile": true
+    },
     {
       "title": "[GPS교육혁신본부] 2026학년도 2학기 학습법 특강 4차 - 시험 전략 특강 (AI 시대, 시험 준비의 패러다임을 바꾸다)",
       "date": "2026-11-23",
@@ -34,6 +41,13 @@
       "date": "2026-11-09",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/90261",
       "pinned": true,
+      "hasFile": false
+    },
+    {
+      "title": "2026학년도 동계방학 중 해사대 재학생 공대생활관 이용자 모집 안내",
+      "date": "2026-11-25",
+      "url": "https://www.mmu.ac.kr/main/board/301/1/read/90319",
+      "pinned": false,
       "hasFile": false
     },
     {
@@ -376,13 +390,6 @@
       "title": "2026 전남·광주 대학생 창업아이디어 경진대회 홍보 안내",
       "date": "2026-10-28",
       "url": "https://www.mmu.ac.kr/main/board/301/1/read/89986",
-      "pinned": false,
-      "hasFile": true
-    },
-    {
-      "title": "[GPS인증제 장학금 필수 교내진단검사] 2026학년도 2학기 재학생 GPS핵심역량/MMU학습역량 진단검사 실시(~12/31)",
-      "date": "2026-10-27",
-      "url": "https://www.mmu.ac.kr/main/board/301/1/read/89969",
       "pinned": false,
       "hasFile": true
     }
